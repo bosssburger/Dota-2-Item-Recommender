@@ -1,6 +1,4 @@
-import sys
-sys.path.append("C:\\Users\\bosss\\OneDrive\\Documents\\Random\\Dota Item Recommender")
-import data_collector.opendota_client as client
+from data_collector import opendota_client as client
 import unittest
 
 class TestClient(unittest.TestCase):

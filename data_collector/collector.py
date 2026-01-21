@@ -1,7 +1,5 @@
-import sys
 import time
-sys.path.append("C:\\Users\\bosss\\OneDrive\\Documents\\Random\\Dota Item Recommender")
-import lib.db_client as db_client
+from lib import db_client
 import opendota_client
 import asyncio
 import aiohttp
@@ -51,7 +49,7 @@ async def collect_and_store(num_matches_hundreds=1):
 
             await asyncio.sleep(BATCH_DELAY)
 
-if __name__ == "__main__":
+def main():
     db_client.init_db()
 
     print("=====Begin match collection=====")
@@ -61,3 +59,6 @@ if __name__ == "__main__":
 
     total_runtime = time.monotonic() - start_total
     print(f"Total runtime: {total_runtime} seconds")
+
+if __name__ == "__main__":
+    main()

@@ -1,19 +1,18 @@
 import lightgbm as lgb
 import pandas as pd
 import numpy as np
-import sys
 import json
 from pathlib import Path
-sys.path.append("C:\\Users\\bosss\\OneDrive\\Documents\\Random\\Dota Item Recommender")
-import lib.db_client as db_client
+from lib import db_client
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
 
 MIN_PAIR_OCCURRENCE = 200
+MODULE_PATH = Path(__file__).parent
+MODEL_PATH = MODULE_PATH / "dota_item_recommender_model_statless.txt"
 
 def load_ids_from_file(filename):
-    app_path = Path(__file__).parent.parent
-    file_path = (app_path / "data" / filename)
+    file_path = (MODULE_PATH.parent / "data" / filename)
     
     f = open(file_path, "r")
     data = json.load(f)
@@ -139,8 +138,7 @@ def train_model(dataset):
     )
     print("AUC:", roc_auc_score(y_test, model.predict(X_test, num_iteration=model.best_iteration)))
 
-    app_path = Path(__file__).parent
-    file_path = (app_path / "feature_names_statless.json")
+    file_path = (MODULE_PATH / "feature_names_statless.json")
 
     with open(file_path, "w") as f:
         json.dump(list(X.columns), f)
@@ -154,8 +152,7 @@ def predict_win_prob(features, feature_names, model):
     return model.predict(X, num_iteration=model.best_iteration)[0]
 
 def load_feature_names():
-    app_path = Path(__file__).parent
-    file_path = (app_path / "feature_names_statless.json")
+    file_path = (MODULE_PATH / "feature_names_statless.json")
     with open(file_path, "r") as f:
         return json.load(f)
     
@@ -233,9 +230,9 @@ def build_candidates(base_features):
     
     return candidates
 
-if __name__ == "__main__":
+def main():
     db_client.create_pick_rate_table()
-    model = lgb.Booster(model_file="dota_item_recommender_model_statless.txt")
+    model = lgb.Booster(model_file=MODEL_PATH)
     
     base_features = build_player_features()
 
@@ -247,3 +244,6 @@ if __name__ == "__main__":
     for (item_id, _) in top_reccs:
         text_reccs.append(item_ids.get(str(item_id)))
     print(text_reccs)
+
+if __name__ == "__main__":
+    main()

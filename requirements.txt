@@ -2,3 +2,4 @@ aiohttp
 lightgbm
 pandas
 scikit-learn
+setuptools

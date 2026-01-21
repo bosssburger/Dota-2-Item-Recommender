@@ -1,6 +1,4 @@
-import sys
-sys.path.append("C:\\Users\\bosss\\OneDrive\\Documents\\Random\\Dota Item Recommender")
-import lib.db_client as db_client
+from lib import db_client
 import unittest
 from tqdm import tqdm
 

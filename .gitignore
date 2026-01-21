@@ -1,0 +1,7 @@
+*.pyc
+*.db
+*.pkl
+feature_names.json
+feature_names_statless.json
+dota_item_recommender_model.txt
+dota_item_recommender_model_statless.txt

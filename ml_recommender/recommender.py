@@ -9,7 +9,7 @@ from sklearn.metrics import roc_auc_score
 
 MIN_PAIR_OCCURRENCE = 200
 MODULE_PATH = Path(__file__).parent
-MODEL_PATH = MODULE_PATH / "dota_item_recommender_model_statless.txt"
+MODEL_PATH = MODULE_PATH / "dota_item_recommender_model.txt"
 
 def load_ids_from_file(filename):
     file_path = (MODULE_PATH.parent / "data" / filename)
@@ -138,7 +138,7 @@ def train_model(dataset):
     )
     print("AUC:", roc_auc_score(y_test, model.predict(X_test, num_iteration=model.best_iteration)))
 
-    file_path = (MODULE_PATH / "feature_names_statless.json")
+    file_path = (MODULE_PATH / "feature_names.json")
 
     with open(file_path, "w") as f:
         json.dump(list(X.columns), f)
@@ -152,7 +152,7 @@ def predict_win_prob(features, feature_names, model):
     return model.predict(X, num_iteration=model.best_iteration)[0]
 
 def load_feature_names():
-    file_path = (MODULE_PATH / "feature_names_statless.json")
+    file_path = (MODULE_PATH / "feature_names.json")
     with open(file_path, "r") as f:
         return json.load(f)
     

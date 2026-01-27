@@ -4,7 +4,7 @@ import lightgbm as lgb
 from google import genai
 from google.genai import types
 
-API_KEY = "AIzaSyC0Bmzg6Oj9Qp-2-kVieZ9EM732M_x2x-8"
+API_KEY = ""
 CLIENT = genai.Client(api_key=API_KEY)
 
 def convert_reccs_to_string(recc_list):

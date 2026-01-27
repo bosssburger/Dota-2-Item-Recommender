@@ -2,7 +2,7 @@ import asyncio
 import aiohttp
 
 BASE_URL = "https://api.opendota.com/api"
-API_KEY = ""
+API_KEY = "API_KEY_HERE"
 
 # 100 is the maximum matches per call from Open Dota
 async def get_public_matches(session, limit=100, less_than_match_id=None):

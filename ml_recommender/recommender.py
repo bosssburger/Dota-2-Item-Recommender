@@ -207,6 +207,8 @@ def build_player_features():
     team = input("Enter 1 if you are radiant and 0 if you are dire: ")
 
     features = dict.fromkeys(load_feature_names(), 0)
+    items = []
+    enemy_heroes = []
 
     features["hero_id"] = int(hero)
     features["isRadiant"] = int(team)
@@ -215,12 +217,14 @@ def build_player_features():
         item_id = int(input(f"Enter the item_id of item {i + 1} (0 if slot is empty): "))
         if item_id != 0:
             features[f"has_item_{item_id}"] = 1
+            items.append(item_id)
     
     for i in range(5):
         enemy_hero_id = int(input(f"Enter the hero_id of enemy hero #{i + 1}: "))
         features[f"enemy_hero_{enemy_hero_id}"] = 1
+        enemy_heroes.append(enemy_hero_id)
 
-    return pd.DataFrame([features])
+    return pd.DataFrame([features]), items, enemy_heroes, hero
 
 def build_candidates(base_features):
     candidates = []
@@ -234,7 +238,7 @@ def main():
     db_client.create_pick_rate_table()
     model = lgb.Booster(model_file=MODEL_PATH)
     
-    base_features = build_player_features()
+    base_features, _, _, _ = build_player_features()
 
     candidates = build_candidates(base_features)
 
